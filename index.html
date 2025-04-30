@@ -5,27 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prasanth Ragupathy - Portfolio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- DM Serif Display Font -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
+    <!-- User's Inter font link -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Premium fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Vanilla Tilt for 3D Effects -->
+    <!-- Vanilla Tilt -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
-
     <style>
-        /* Define the Poppins font */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
+        /* Base Styles & Typography */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(180deg, #101010, #202020);
-            color: #f0f0f0;
+            background: linear-gradient(180deg, #0a0a0a, #1a1a1a);
+            color: #e0e0e0;
             overflow-x: hidden;
             line-height: 1.8;
             position: relative;
@@ -35,7 +33,27 @@
             scroll-behavior: smooth;
         }
 
-        /* Starfield */
+        h1,
+        h2,
+        h3 {
+            font-family: 'DM Serif Display', serif;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: text-shadow 0.3s ease;
+        }
+
+        h1:hover,
+        h2:hover,
+        h3:hover {
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Starfield Background (Subtle Depth) */
         #starfield {
             position: fixed;
             top: 0;
@@ -44,70 +62,53 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
+            will-change: transform, opacity;
+            /* Hint for performance */
         }
 
         .star {
             position: absolute;
-            background: radial-gradient(circle, #ffffff, #666666);
+            background: radial-gradient(circle, #ffffff, #aaaaaa);
             border-radius: 50%;
-            opacity: 0.7;
-            animation: star-motion linear infinite, pulse 2s infinite alternate;
+            opacity: 0.5;
+            animation: star-motion linear infinite, pulse 3s infinite alternate ease-in-out;
+            will-change: transform, opacity;
+            /* Hint for performance */
         }
 
         @keyframes star-motion {
             0% {
-                transform: translateZ(0) translateY(-20vh) scale(0.5);
+                transform: translateZ(0) translateY(-10vh) scale(0.2);
                 opacity: 0;
             }
 
             10% {
-                opacity: 0.7;
+                opacity: 0.5;
             }
 
             100% {
-                transform: translateZ(100px) translateY(120vh) scale(1.2);
+                transform: translateZ(200px) translateY(110vh) scale(1);
                 opacity: 0;
             }
         }
 
         @keyframes pulse {
             0% {
-                opacity: 0.7;
+                opacity: 0.5;
             }
 
             100% {
-                opacity: 0.3;
+                opacity: 0.2;
             }
         }
 
-        /* Hero Text */
-        .hero-text {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffffff, #dddddd, #f0f0f0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(220, 220, 220, 0.7), 0 0 40px rgba(200, 200, 200, 0.5);
-            animation: glow 3s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                text-shadow: 0 0 20px rgba(220, 220, 220, 0.7), 0 0 40px rgba(200, 200, 200, 0.5);
-            }
-
-            100% {
-                text-shadow: 0 0 30px rgba(220, 220, 220, 0.9), 0 0 60px rgba(200, 200, 200, 0.7);
-            }
-        }
-
-        /* Fade Animation */
+        /* Fade-in Animation (Scroll Interaction) */
         .fade-in {
             opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease, transform 1s ease;
+            transform: translateY(30px);
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+            will-change: transform, opacity;
+            /* Hint for performance */
         }
 
         .fade-in.visible {
@@ -115,245 +116,700 @@
             transform: translateY(0);
         }
 
-        /* Nav Links */
+        /* Scroll Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #888, #eee);
+            width: 0;
+            z-index: 50;
+            transition: width 0.2s ease-out;
+        }
+
+        /* Navigation Bar */
+        nav {
+            padding: 0.75rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+            z-index: 40;
+        }
+
+        .navbar-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         .nav-link {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
+            /* Kept user's preferred font for links */
             position: relative;
-            transition: all 0.4s ease;
-            color: #d0d0d0;
+            transition: all 0.3s ease;
+            color: #b0b0b0;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            padding-bottom: 0.5rem;
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
-            bottom: -6px;
-            left: 0;
-            background: linear-gradient(90deg, #aaa, #eee);
-            transition: width 0.4s ease;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #ddd, #fff);
+            transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .nav-link:hover {
             color: #fff;
-            transform: translateY(-3px) scale(1.05);
-            text-shadow: 0 0 15px rgba(200, 200, 200, 0.8);
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
         }
 
         .nav-link:hover::after {
             width: 100%;
         }
 
-        /* CTA Button */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 60;
+        }
+
+        /* Hero Section */
+        .hero-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3.5rem, 9vw, 7.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, #ddd, #eee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 30px rgba(220, 220, 220, 0.4);
+            animation: glow 3s infinite alternate ease-in-out;
+            will-change: text-shadow;
+            /* Hint for performance */
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 30px rgba(220, 220, 220, 0.4);
+            }
+
+            100% {
+                text-shadow: 0 0 25px rgba(255, 255, 255, 0.8), 0 0 50px rgba(220, 220, 255, 0.6);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: #d0d0d0;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+
+        /* Call to Action Button (CTA) */
         .cta-btn {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #bbbbbb, #eeeeee);
-            color: #333;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: all 0.4s ease;
-            box-shadow: 0 5px 25px rgba(180, 180, 180, 0.6);
+            font-family: 'Inter', sans-serif;
+            /* Kept user's preferred font for buttons */
+            background: linear-gradient(135deg, #ccc, #eee);
+            color: #222;
+            padding: 1.2rem 3rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 8px 20px rgba(180, 180, 180, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            /* Hint for performance */
+            z-index: 1;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.7s ease-in-out;
+            pointer-events: none;
+            will-change: transform;
+            /* Hint for performance */
+            z-index: -1;
+        }
+
+        .cta-btn:hover::before {
+            transform: translateX(100%);
         }
 
         .cta-btn:hover {
-            transform: translateY(-10px) scale(1.1);
-            box-shadow: 0 15px 40px rgba(180, 180, 180, 0.9);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(180, 180, 180, 0.5);
+            background: linear-gradient(135deg, #ddd, #fff);
         }
 
-        /* Ribbons */
+
+        /* Section Padding & Layout */
+        section {
+            padding: 6rem 1.5rem;
+        }
+
+        .section-title {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        /* Glassmorphism Style (Containers) */
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s ease-in-out;
+            overflow: hidden;
+            position: relative;
+            will-change: transform, box-shadow;
+            /* Hint for performance */
+        }
+
+        .glassmorphism:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Glass Shiny Effect (Applied to any element with glassmorphism on hover) */
+        .glassmorphism::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            will-change: transform;
+            /* Hint for performance */
+        }
+
+        .glassmorphism:hover::before {
+            transform: translateX(200%);
+        }
+
+
+        /* Skills Ribbon Animation */
         .ribbon-container {
             position: relative;
             width: 100%;
-            height: 160px;
+            height: 140px;
             overflow: hidden;
+            margin-top: 2rem;
         }
 
         .ribbon {
             position: absolute;
-            padding: 1.5rem 0;
-            background: linear-gradient(90deg, #202020, #888);
-            transform: skew(-20deg);
-            box-shadow: 0 5px 25px rgba(150, 150, 150, 0.5);
+            padding: 1.2rem 0;
+            background: linear-gradient(90deg, #1a1a1a, #444);
+            transform: skew(-15deg);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
             white-space: nowrap;
             transition: transform 0.3s ease;
             width: 200%;
-            /* Increased width for better looping */
+            will-change: transform;
+            /* Hint for performance */
         }
 
         .ribbon-1 {
             top: 0;
-            animation: scrollLeft 20s linear infinite;
+            animation: scrollLeft 40s linear infinite;
         }
 
         .ribbon-2 {
             top: 70px;
-            animation: scrollRight 25s linear infinite;
-            background: linear-gradient(90deg, #202020, #fff);
+            animation: scrollRight 50s linear infinite;
+            background: linear-gradient(90deg, #1a1a1a, #666);
         }
 
         .ribbon-content {
             display: flex;
-            gap: 2.5rem;
-            transform: skew(20deg);
+            gap: 3rem;
+            transform: skew(15deg);
+            width: max-content;
+            padding: 0 1.5rem;
         }
 
         .skill-item {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
             text-transform: uppercase;
-            transition: transform 0.3s ease, text-shadow 0.3s ease;
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: #bbb;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            cursor: default;
+            will-change: transform, color, text-shadow;
+            /* Hint for performance */
+        }
+
+        .skill-item i {
+            margin-right: 0.6rem;
             color: #ddd;
         }
 
         .skill-item:hover {
-            transform: scale(1.3) translateZ(20px);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
 
         @keyframes scrollLeft {
             0% {
-                transform: skew(-20deg) translateX(0);
+                transform: skew(-15deg) translateX(0);
             }
 
             100% {
-                transform: skew(-20deg) translateX(-100%);
+                transform: skew(-15deg) translateX(-50%);
             }
-
-            /* Changed to -100% */
         }
 
         @keyframes scrollRight {
             0% {
-                transform: skew(-20deg) translateX(0);
+                transform: skew(-15deg) translateX(-50%);
             }
 
-            /* Changed to 0% */
             100% {
-                transform: skew(-20deg) translateX(-100%);
+                transform: skew(-15deg) translateX(0);
+            }
+        }
+
+        /* Card Base Styles (Used for Experience & Project Details) */
+        .card {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta {
+            font-size: 0.95rem;
+            color: #b0b0b0;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            color: #e0e0e0;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .card-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            color: #d0d0d0;
+            font-size: 0.95rem;
+        }
+
+        .card-list li {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .card-list li i {
+            margin-right: 0.8rem;
+            color: #888;
+            font-size: 1.1rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Project Specific Styles (Includes layout and thumbnail) */
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            perspective: 1500px;
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
+            position: relative;
+            overflow: hidden;
+            will-change: transform, box-shadow;
+            /* Hint for performance */
+        }
+
+        .project-thumbnail {
+            flex-shrink: 0;
+            width: 100%;
+            /* Full width on mobile */
+            max-width: 300px;
+            /* Max width on desktop */
+            height: 200px;
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 0 auto;
+            /* Center on mobile */
+            cursor: pointer;
+            /* Add cursor pointer to indicate clickability */
+            transition: transform 0.3s ease;
+            /* Subtle hover effect */
+        }
+
+        .project-thumbnail:hover {
+            transform: scale(1.03);
+        }
+
+
+        .project-thumbnail img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.4s ease-in-out;
+        }
+
+        .project-card:hover .project-thumbnail img {
+            filter: grayscale(0%);
+        }
+
+
+        @media (min-width: 768px) {
+            .project-card {
+                flex-direction: row;
+                align-items: center;
             }
 
-            /* Changed to -100% */
+            .project-card .card-content {
+                flex-grow: 1;
+            }
+
+            .project-thumbnail {
+                width: 300px;
+                /* Fixed width on desktop */
+                margin: initial;
+                /* Remove centering on desktop */
+            }
+
+            .project-card:nth-child(even) {
+                /* Reverse layout for alternating projects */
+                flex-direction: row-reverse;
+            }
+
+            .project-card:nth-child(even) .project-thumbnail {
+                /* Adjust margin for reversed layout */
+                margin-left: 2rem;
+                margin-right: 0;
+            }
         }
 
-        /* Glassmorphism */
-        .glassmorphism {
+
+        /* Testimonial Blocks (User's structure with glassmorphism) */
+        .testimonial {
+            font-family: 'DM Serif Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #d0d0d0;
+            position: relative;
+            padding: 2rem;
+            /* Increased padding */
+            border-left: 3px solid #aaa;
+            margin: 2rem 0;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            /* Inherits glassmorphism styles */
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial::before {
+            content: '“';
+            font-size: 4rem;
+            /* Larger quotes */
+            color: #666;
+            position: absolute;
+            left: 0.5rem;
+            /* Adjust position */
+            top: 0.5rem;
+            /* Adjust position */
+            opacity: 0.5;
+            line-height: 1;
+        }
+
+        .testimonial::after {
+            content: '”';
+            font-size: 4rem;
+            /* Larger quotes */
+            color: #666;
+            position: absolute;
+            right: 0.5rem;
+            /* Adjust position */
+            bottom: 0.5rem;
+            /* Adjust position */
+            opacity: 0.5;
+            line-height: 1;
+        }
+
+
+        /* Contact Form */
+        .contact-form {
+            padding: 2.5rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3.5rem;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 25px;
-            box-shadow: 0 5px 35px rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.5s ease;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .glassmorphism:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 10px 50px rgba(150, 150, 150, 0.4);
+        /* Corrected Syntax for Placeholders and Focus */
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: #888;
+            opacity: 1;
         }
 
-        /* Project Cards */
-        .project-card {
-            perspective: 2000px;
-            transition: transform 0.5s ease;
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
-        .project-card:hover {
-            transform: translateZ(40px) rotateX(3deg);
+        .contact-form .input-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            opacity: 0.8;
+            pointer-events: none;
         }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .contact-form textarea.input-icon~textarea {
+            /* Adjusted padding for icon inside textarea */
+            padding-left: 3.5rem;
+        }
+
 
         /* Social Links */
         .social-link {
-            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
-            color: #bbb;
+            transition: transform 0.3s ease-in-out, color 0.3s ease;
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            will-change: transform, color, text-shadow;
+            /* Hint for performance */
+        }
+
+        .social-link i {
+            margin-right: 0.5rem;
         }
 
         .social-link:hover {
-            transform: scale(1.3) rotate(7deg);
-            color: #eee;
-            text-shadow: 0 0 20px rgba(220, 220, 220, 0.8);
+            transform: translateY(-3px);
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
         }
 
-        /* Headings */
-        h2,
-        h3 {
-            font-family: 'DM Serif Display', serif;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-            transition: text-shadow 0.3s ease;
+        /* Dividers */
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, #666, #aaa);
+            margin: 2rem auto;
+            opacity: 0.7;
         }
 
-        h2:hover,
-        h3:hover {
-            text-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+        /* Footer */
+        footer {
+            background: #050505;
+            color: #888;
+            padding: 1.5rem 1rem;
+            font-size: 0.9rem;
         }
 
-        /* Progress Bar */
-        #progress-bar {
+        footer i {
+            color: #666;
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ccc, #eee);
-            width: 0;
-            z-index: 30;
-            transition: width 0.3s ease;
-        }
-
-        .max-w-16xl {
-            max-width: 100rem;
-        }
-
-        /* Navbar */
-        nav {
-            padding: 1rem 2rem;
+            width: 100%;
+            height: 100%;
             display: flex;
-            justify-content: space-between;
+            /* Use flexbox to center content */
             align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            /* High z-index to cover everything */
+            background: rgba(0, 0, 0, 0.85);
+            /* Dark overlay */
+            backdrop-filter: blur(8px);
+            /* Blur effect for glassmorphism feel */
+            visibility: hidden;
+            /* Hidden by default */
+            opacity: 0;
+            /* Start with opacity 0 */
+            transition: visibility 0.4s, opacity 0.4s ease-in-out;
+            /* Smooth transition */
         }
 
-        nav ul {
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            /* Max width relative to viewport */
+            max-height: 90vh;
+            /* Max height relative to viewport */
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            /* Prevent image overflow */
             display: flex;
-            gap: 2rem;
+            /* Added to center the image */
+            justify-content: center;
+            /* Added to center the image */
+            align-items: center;
+            /* Added to center the image */
         }
 
-        .navbar-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.75rem;
+        #modal-image {
+            display: block;
+            /* Remove extra space below image */
+            max-width: 100%;
+            /* Ensure image fits within modal content */
+            max-height: calc(90vh - 3rem - 30px);
+            /* Calculate max height: viewport height - content padding - estimated close button height */
+            height: auto;
+            /* Maintain aspect ratio */
+            object-fit: contain;
+            /* Ensure the whole image is visible without cropping */
+            border-radius: 8px;
+            /* Match project thumbnail border-radius */
         }
 
-        .menu-toggle {
-            display: none;
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10010;
+            /* Higher than content */
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: color 0.3s ease;
         }
 
-        /* Mobile Styles */
+        .modal-close:hover {
+            color: #ddd;
+        }
+
+
+        /* Responsiveness */
         @media (max-width: 768px) {
-
-            /* Navbar */
             nav {
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 1rem;
-                background: rgba(20, 20, 20, 0.95);
             }
 
             .navbar-title {
                 font-size: 1.5rem;
+                margin-bottom: 0;
             }
 
             .menu-toggle {
                 display: block;
-                font-size: 1.5rem;
-                color: #fff;
-                cursor: pointer;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
             }
 
             nav ul {
                 display: none;
+                /* Controlled by JS/CSS active class */
                 flex-direction: column;
                 width: 100%;
                 margin-top: 1rem;
                 gap: 0.5rem;
+                background: rgba(20, 20, 20, 0.95);
+                padding: 0.5rem 0;
+                border-radius: 8px;
             }
 
             nav.active ul {
@@ -366,427 +822,716 @@
                 text-align: left;
             }
 
-            /* Hero Section */
+            nav ul li a::after {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+            }
+
             .hero-text {
-                font-size: clamp(2.5rem, 8vw, 5rem);
+                font-size: clamp(2.5rem, 10vw, 5rem);
+            }
+
+            .hero-subtitle {
+                font-size: clamp(1rem, 3vw, 1.4rem);
+                margin-bottom: 2rem;
             }
 
             .cta-btn {
-                padding: 0.75rem 2rem;
+                padding: 0.8rem 2rem;
                 font-size: 0.9rem;
             }
 
-            /* Ribbons */
             .ribbon-container {
-                height: 120px;
+                height: 100px;
             }
 
             .ribbon {
-                padding: 1rem 0;
+                padding: 0.8rem 0;
+                width: 300%;
+                transform: skew(-10deg);
             }
 
-            .skill-item {
-                font-size: 0.9rem;
+            .ribbon-1 {
+                animation-duration: 30s;
             }
 
             .ribbon-2 {
+                animation-duration: 35s;
                 top: 50px;
             }
 
-            /* General Adjustments */
-            section {
-                padding: 3rem 1rem;
+            .ribbon-content {
+                gap: 1.5rem;
+                transform: skew(10deg);
+                padding: 0 1rem;
             }
 
-            h2 {
-                font-size: 2.5rem;
+            @keyframes scrollLeft {
+                0% {
+                    transform: skew(-10deg) translateX(0);
+                }
+
+                100% {
+                    transform: skew(-10deg) translateX(-66.66%);
+                }
             }
 
-            h3 {
-                font-size: 1.5rem;
+            @keyframes scrollRight {
+                0% {
+                    transform: skew(-10deg) translateX(-66.66%);
+                }
+
+                100% {
+                    transform: skew(-10deg) translateX(0);
+                }
             }
 
-            .glassmorphism {
+            .card {
                 padding: 1.5rem;
             }
 
-            /* Form */
-            form input,
-            form textarea {
-                padding: 0.75rem 2.5rem;
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .testimonial {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+
+            .testimonial::before,
+            .testimonial::after {
+                font-size: 3rem;
+                /* Smaller quotes on mobile */
+            }
+
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                padding: 0.8rem 0.8rem 0.8rem 3rem;
                 font-size: 0.9rem;
             }
 
-            form .cta-btn {
-                padding: 0.75rem;
+            .contact-form .input-icon {
+                left: 1rem;
             }
+
+            .social-link {
+                font-size: 0.9rem;
+            }
+
+            #modal-image {
+                max-height: calc(90vh - 3rem - 20px);
+                /* Adjust for mobile padding/close size */
+            }
+
         }
 
         @media (max-width: 480px) {
             .hero-text {
-                font-size: clamp(2rem, 10vw, 3.5rem);
+                font-size: clamp(2rem, 12vw, 4rem);
+            }
+
+            .hero-subtitle {
+                font-size: clamp(0.9rem, 3.5vw, 1.2rem);
             }
 
             .cta-btn {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.8rem;
+                padding: 0.7rem 1.8rem;
+                font-size: 0.85rem;
             }
 
-            .skill-item {
-                font-size: 0.8rem;
-            }
-
-            .ribbon-content {
-                gap: 1rem;
-            }
-
-            h2 {
+            .section-title {
                 font-size: 2rem;
             }
 
-            h3 {
-                font-size: 1.25rem;
+            .ribbon {
+                width: 400%;
+            }
+
+            .ribbon-1 {
+                animation-duration: 25s;
+            }
+
+            .ribbon-2 {
+                animation-duration: 30s;
+            }
+
+            @keyframes scrollLeft {
+                0% {
+                    transform: skew(-10deg) translateX(0);
+                }
+
+                100% {
+                    transform: skew(-10deg) translateX(-75%);
+                }
+            }
+
+            @keyframes scrollRight {
+                0% {
+                    transform: skew(-10deg) translateX(-75%);
+                }
+
+                100% {
+                    transform: skew(-10deg) translateX(0);
+                }
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .testimonial {
+                padding: 1.5rem;
+            }
+
+            .testimonial blockquote {
+                font-size: 1.2rem;
+            }
+
+            .testimonial::before,
+            .testimonial::after {
+                font-size: 3em;
+            }
+
+            .social-link {
+                font-size: 0.8rem;
+            }
+
+            #modal-image {
+                max-height: calc(90vh - 3rem - 15px);
+                /* Further adjust for very small screens */
             }
         }
 
-        /* Disable Heavy Animations on Mobile */
-        @media (max-width: 768px) {
-            .star {
-                animation: none;
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .star,
+            .hero-text,
+            .ribbon,
+            .fade-in,
+            .glassmorphism::before,
+            .cta-btn::before,
+            .project-card:hover,
+            .testimonial:hover,
+            .project-thumbnail:hover {
+                /* Disable hover scale */
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
             }
 
-            .project-card:hover {
-                transform: none;
+            .fade-in {
+                opacity: 1 !important;
+            }
+
+            .project-card:hover .project-thumbnail img {
+                filter: grayscale(100%) !important;
+            }
+
+            .modal {
+                transition: none !important;
+                /* Disable modal transition */
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Progress Bar -->
     <div id="progress-bar"></div>
-
-    <!-- Starfield Background -->
     <div id="starfield"></div>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-20 glassmorphism shadow-lg">
-        <div class="navbar-title text-white"><i class="fas fa-code mr-2"></i>Prasanth</div>
-        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
-        <ul class="text-sm uppercase">
-            <li><a href="#home" class="nav-link"><i class="fas fa-home mr-1"></i>Home</a></li>
-            <li><a href="#about" class="nav-link"><i class="fas fa-user mr-1"></i>About</a></li>
-            <li><a href="#skills" class="nav-link"><i class="fas fa-tools mr-1"></i>Skills</a></li>
-            <li><a href="#experience" class="nav-link"><i class="fas fa-briefcase mr-1"></i>Experience</a></li>
-            <li><a href="#projects" class="nav-link"><i class="fas fa-project-diagram mr-1"></i>Projects</a></li>
-            <li><a href="#contact" class="nav-link"><i class="fas fa-envelope mr-1"></i>Contact</a></li>
+    <nav class="fixed top-0 w-full z-40 glassmorphism shadow-xl">
+        <div class="flex justify-between items-center w-full md:w-auto">
+            <div class="navbar-title text-white"><i class="fas fa-code mr-3 opacity-70"></i>Prasanth</div>
+            <div class="menu-toggle md:hidden"><i class="fas fa-bars"></i></div>
+        </div>
+        <ul class="hidden md:flex text-sm uppercase md:items-center md:gap-10">
+            <li><a href="#home" class="nav-link"><i class="fas fa-home mr-2 opacity-70"></i>Home</a></li>
+            <li><a href="#about" class="nav-link"><i class="fas fa-user mr-2 opacity-70"></i>About</a></li>
+            <li><a href="#skills" class="nav-link"><i class="fas fa-tools mr-2 opacity-70"></i>Skills</a></li>
+            <li><a href="#experience" class="nav-link"><i class="fas fa-briefcase mr-2 opacity-70"></i>Experience</a>
+            </li>
+            <li><a href="#projects" class="nav-link"><i class="fas fa-project-diagram mr-2 opacity-70"></i>Projects</a>
+            </li>
+            <li><a href="#testimonials" class="nav-link"><i
+                        class="fas fa-quote-left mr-2 opacity-70"></i>Testimonials</a>
+            </li>
+            <li><a href="#contact" class="nav-link"><i class="fas fa-envelope mr-2 opacity-70"></i>Contact</a></li>
         </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center text-center px-6 relative">
+    <section id="home" class="min-h-screen flex items-center justify-center text-center px-6 relative pt-24 md:pt-0">
         <div class="fade-in">
-            <h1 class="hero-text mb-8 leading-tight"><i class="fas fa-laptop-code mr-2"></i>Crafting
-                Digital<br>Masterpieces</h1>
-            <p class="text-xl md:text-2xl text-white mb-10 shadow-md">I’m Prasanth Ragupathy — Business Analyst & Full
-                Stack Visionary</p>
-            <a href="#projects" class="cta-btn shadow-lg"><i class="fas fa-eye mr-2"></i>Explore My Work</a>
+            <h1 class="hero-text mb-10 leading-tight"><i class="fas fa-laptop-code mr-3"></i>Architecting<br>Digital
+                Excellence</h1>
+            <p class="text-xl md:text-2xl text-white mb-12 font-light tracking-wide">Prasanth Ragupathy — Blending
+                Visionary Code with Strategic Insight</p>
+            <a href="#projects" class="cta-btn"><i class="fas fa-eye mr-2"></i>Discover My Work</a>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-24 px-6">
-        <div class="max-w-5xl mx-auto text-center fade-in glassmorphism p-10 shadow-lg">
-            <h2 class="text-5xl font-bold text-white"><i class="fas fa-user-circle mr-2"></i>About Me</h2>
-            <p class="text-lg text-white mb-6 shadow-md">I’m a hybrid professional blending analytical precision with
-                creative coding. With a passion for building seamless digital experiences, I specialize in turning
-                complex business needs into elegant, functional solutions.</p>
-            <p class="text-lg text-white shadow-md">I am a Business Analyst and Full Stack Developer with expertise in
-                Salesforce CRM, web development, data migration, and process optimization. I build scalable and
-                efficient solutions that streamline workflows and enhance business efficiency. My experience in Agile
-                methodologies and project management enables me to lead teams and execute projects successfully.
-                Passionate about continuous learning, I am always looking to deliver impactful and innovative solutions.
-            </p>
-            <p class="text-lg text-white mt-6 shadow-md"><i class="fas fa-phone mr-2"></i>+91 9789532813 | <i
-                    class="fas fa-envelope mr-2"></i>prasanthragupathy5@gmail.com | <i
-                    class="fas fa-map-marker-alt mr-2"></i>Coimbatore, India</p>
+    <section id="about" class="py-28 px-6">
+        <div class="max-w-5xl mx-auto text-center fade-in glassmorphism p-8 md:p-12 shadow-2xl">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-8"><i
+                    class="fas fa-user-circle mr-3 opacity-80"></i>About Me</h2>
+            <div class="divider"></div>
+            <p class="text-lg md:text-xl text-white mb-8 font-light leading-relaxed opacity-90">I’m Prasanth, a fusion
+                of analytical precision and creative ingenuity. My journey began with a curiosity for how systems work,
+                evolving into a passion for crafting solutions that are as elegant as they are effective. I thrive at
+                the intersection of business strategy and technology, transforming complex challenges into seamless
+                digital experiences.</p>
+            <p class="text-lg md:text-xl text-white mb-8 font-light leading-relaxed opacity-90">With a knack for
+                uncovering insights and a toolkit spanning Salesforce, full-stack development, and process
+                optimization, I build solutions that empower businesses to soar. My approach is grounded in trust,
+                collaboration, and a relentless pursuit of excellence—qualities that define every project I touch.</p>
+            <p class="text-md md:text-lg text-white mt-8 font-light opacity-80"><i
+                    class="fas fa-phone mr-2 opacity-70"></i>+91 9789532813 | <i
+                    class="fas fa-envelope mr-2 opacity-70"></i>prasanthragupathy5@gmail.com | <i
+                    class="fas fa-map-marker-alt mr-2 opacity-70"></i>Coimbatore, India</p>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-24 px-6">
+    <section id="skills" class="py-28 px-6">
         <div class="max-w-16xl mx-auto fade-in">
-            <h2 class="text-5xl font-bold text-white mb-12 text-center"><i class="fas fa-cogs mr-2"></i>Skills</h2>
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-12"><i
+                    class="fas fa-cogs mr-3 opacity-80"></i>Skills</h2>
             <div class="ribbon-container">
-                <div class="ribbon ribbon-1 shadow-md">
-                    <div class="ribbon-content">
-                        <span class="skill-item"><i class="fab fa-salesforce mr-1"></i>Salesforce CRM</span>
-                        <span class="skill-item"><i class="fas fa-code mr-1"></i>Apex Coding</span>
-                        <span class="skill-item"><i class="fas fa-exchange-alt mr-1"></i>REST API</span>
-                        <span class="skill-item"><i class="fas fa-database mr-1"></i>SOQL</span>
-                        <span class="skill-item"><i class="fas fa-server mr-1"></i>SQL</span>
-                        <span class="skill-item"><i class="fas fa-bolt mr-1"></i>Lightning Web Components</span>
-                        <span class="skill-item"><i class="fas fa-file-import mr-1"></i>Data Migration</span>
-                        <span class="skill-item"><i class="fas fa-layer-group mr-1"></i>Full Stack Development</span>
-                        <span class="skill-item"><i class="fas fa-table mr-1"></i>Supabase</span>
-                        <span class="skill-item"><i class="fas fa-edit mr-1"></i>CRUD Operations</span>
-                        <span class="skill-item"><i class="fas fa-file-excel mr-1"></i>MS Excel</span>
-                        <span class="skill-item"><i class="fas fa-chart-bar mr-1"></i>Power BI</span>
-                        <span class="skill-item"><i class="fab fa-html5 mr-1"></i>HTML</span>
-                        <span class="skill-item"><i class="fab fa-css3-alt mr-1"></i>CSS</span>
-                        <span class="skill-item"><i class="fab fa-js mr-1"></i>JavaScript</span>
-                        <span class="skill-item"><i class="fas fa-wind mr-1"></i>Tailwind CSS</span>
-                        <span class="skill-item"><i class="fas fa-table mr-1"></i>DataTables</span>
-                        <span class="skill-item"><i class="fas fa-paint-brush mr-1"></i>UI/UX Design</span>
-                        <span class="skill-item"><i class="fab fa-microsoft mr-1"></i>Microsoft 365</span>
-                        <span class="skill-item"><i class="fas fa-tools mr-1"></i>Postman</span>
-                        <span class="skill-item"><i class="fas fa-cogs mr-1"></i>CI/CD Pipelines</span>
-                        <span class="skill-item"><i class="fas fa-bug mr-1"></i>Debugging</span>
-                        <span class="skill-item"><i class="fas fa-wrench mr-1"></i>Troubleshooting</span>
-                        <!-- Repeated for scrolling -->
-                        <span class="skill-item"><i class="fab fa-salesforce mr-1"></i>Salesforce CRM</span>
-                        <span class="skill-item"><i class="fas fa-code mr-1"></i>Apex Coding</span>
-                        <span class="skill-item"><i class="fas fa-exchange-alt mr-1"></i>REST API</span>
-                        <span class="skill-item"><i class="fas fa-database mr-1"></i>SOQL</span>
-                        <span class="skill-item"><i class="fas fa-server mr-1"></i>SQL</span>
-                        <span class="skill-item"><i class="fas fa-bolt mr-1"></i>Lightning Web Components</span>
-                        <span class="skill-item"><i class="fas fa-file-import mr-1"></i>Data Migration</span>
-                        <span class="skill-item"><i class="fas fa-layer-group mr-1"></i>Full Stack Development</span>
-                        <span class="skill-item"><i class="fas fa-table mr-1"></i>Supabase</span>
-                        <span class="skill-item"><i class="fas fa-edit mr-1"></i>CRUD Operations</span>
-                        <span class="skill-item"><i class="fas fa-file-excel mr-1"></i>MS Excel</span>
-                        <span class="skill-item"><i class="fas fa-chart-bar mr-1"></i>Power BI</span>
-                        <span class="skill-item"><i class="fab fa-html5 mr-1"></i>HTML</span>
-                        <span class="skill-item"><i class="fab fa-css3-alt mr-1"></i>CSS</span>
-                        <span class="skill-item"><i class="fab fa-js mr-1"></i>JavaScript</span>
-                        <span class="skill-item"><i class="fas fa-wind mr-1"></i>Tailwind CSS</span>
-                        <span class="skill-item"><i class="fas fa-table mr-1"></i>DataTables</span>
-                        <span class="skill-item"><i class="fas fa-paint-brush mr-1"></i>UI/UX Design</span>
-                        <span class="skill-item"><i class="fab fa-microsoft mr-1"></i>Microsoft 365</span>
-                        <span class="skill-item"><i class="fas fa-tools mr-1"></i>Postman</span>
-                        <span class="skill-item"><i class="fas fa-cogs mr-1"></i>CI/CD Pipelines</span>
-                        <span class="skill-item"><i class="fas fa-bug mr-1"></i>Debugging</span>
-                        <span class="skill-item"><i class="fas fa-wrench mr-1"></i>Troubleshooting</span>
-                    </div>
+                <div class="ribbon ribbon-1 shadow-xl">
+                    <div class="ribbon-content"></div>
                 </div>
-                <div class="ribbon ribbon-2 shadow-md">
-                    <div class="ribbon-content">
-                        <span class="skill-item"><i class="fas fa-tasks mr-1"></i>Project Management</span>
-                        <span class="skill-item"><i class="fas fa-running mr-1"></i>Agile Methodologies</span>
-                        <span class="skill-item"><i class="fas fa-users mr-1"></i>Scrum</span>
-                        <span class="skill-item"><i class="fas fa-comments mr-1"></i>Stakeholder Communication</span>
-                        <span class="skill-item"><i class="fas fa-cogs mr-1"></i>Business Process Optimization</span>
-                        <!-- Repeated for scrolling -->
-                        <span class="skill-item"><i class="fas fa-tasks mr-1"></i>Project Management</span>
-                        <span class="skill-item"><i class="fas fa-running mr-1"></i>Agile Methodologies</span>
-                        <span class="skill-item"><i class="fas fa-users mr-1"></i>Scrum</span>
-                        <span class="skill-item"><i class="fas fa-comments mr-1"></i>Stakeholder Communication</span>
-                        <span class="skill-item"><i class="fas fa-cogs mr-1"></i>Business Process Optimization</span>
-                        <span class="skill-item"><i class="fas fa-tasks mr-1"></i>Project Management</span>
-                        <span class="skill-item"><i class="fas fa-running mr-1"></i>Agile Methodologies</span>
-                        <span class="skill-item"><i class="fas fa-users mr-1"></i>Scrum</span>
-                        <span class="skill-item"><i class="fas fa-comments mr-1"></i>Stakeholder Communication</span>
-                        <span class="skill-item"><i class="fas fa-cogs mr-1"></i>Business Process Optimization</span>
-                    </div>
+                <div class="ribbon ribbon-2 shadow-xl">
+                    <div class="ribbon-content"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="py-24 px-6">
+    <section id="experience" class="py-28 px-6">
         <div class="max-w-6xl mx-auto fade-in">
-            <h2 class="text-5xl font-bold text-white mb-12 text-center"><i class="fas fa-briefcase mr-2"></i>Experience
-            </h2>
-            <div class="mb-12 glassmorphism p-8 shadow-lg">
-                <h3 class="text-3xl font-semibold text-white mb-4"><i class="fas fa-laptop mr-2"></i>Business Analyst &
-                    Full Stack Web Application Developer</h3>
-                <p class="text-white mb-2"><i class="fas fa-building mr-2"></i>The Chennai Mobiles | 12/2023 - 09/2024
-                </p>
-                <ul class="list-none text-white space-y-2">
-                    <li><i class="fas fa-check-circle mr-2"></i>Developed and optimized a full-stack web application
-                        using HTML, CSS, JavaScript, Tailwind CSS, Supabase, and DataTables, improving team efficiency
-                        by 35%.</li>
-                    <li><i class="fas fa-chart-line mr-2"></i>Designed Looker Studio dashboards for store growth
-                        analysis, boosting decision-making by 40%.</li>
-                    <li><i class="fas fa-bullhorn mr-2"></i>Led a nationwide banking campaign with AMEX, HDFC, IDFC, and
-                        HDB, increasing festival sales engagement by 30%.</li>
-                    <li><i class="fas fa-database mr-2"></i>Ensured 100% accuracy in data migration and onboarding,
-                        enhancing operational readiness.</li>
-                    <li><i class="fas fa-credit-card mr-2"></i>Introduced Pinelabs and UPI payment solutions,
-                        streamlining checkout processes and improving customer experience.</li>
-                </ul>
-            </div>
-            <div class="mb-12 glassmorphism p-8 shadow-lg">
-                <h3 class="text-3xl font-semibold text-white mb-4"><i class="fas fa-user-tie mr-2"></i>Junior Scrum
-                    Master & Salesforce Intern</h3>
-                <p class="text-white mb-2"><i class="fas fa-building mr-2"></i>Commodity CRM | 09/2023 - 12/2023</p>
-                <ul class="list-none text-white space-y-2">
-                    <li><i class="fas fa-users mr-2"></i>Facilitated daily Scrum meetings and sprint planning,
-                        increasing team productivity by 30%.</li>
-                    <li><i class="fas fa-exchange-alt mr-2"></i>Integrated REST APIs into Salesforce workflows,
-                        improving system performance.</li>
-                    <li><i class="fas fa-file-excel mr-2"></i>Developed Excel-based dynamic reports for stakeholders,
-                        enabling better decision-making.</li>
-                </ul>
-            </div>
-            <div class="glassmorphism p-8 shadow-lg">
-                <h3 class="text-3xl font-semibold text-white mb-4"><i class="fas fa-code-branch mr-2"></i>Software
-                    Engineer Intern</h3>
-                <p class="text-white mb-2"><i class="fas fa-building mr-2"></i>AVASOFT | 08/2022 - 05/2023</p>
-                <ul class="list-none text-white space-y-2">
-                    <li><i class="fas fa-tachometer-alt mr-2"></i>Enhanced Salesforce platform efficiency by 15% through
-                        Apex and JavaScript optimizations.</li>
-                    <li><i class="fas fa-tools mr-2"></i>Improved CI/CD pipelines, reducing deployment errors by 25%.
-                    </li>
-                    <li><i class="fas fa-file-import mr-2"></i>Completed 100% accurate data migration, ensuring smooth
-                        business operations.</li>
-                    <li><i class="fas fa-users-cog mr-2"></i>Supported a team of 8 engineers, assisting across multiple
-                        tasks.</li>
-                </ul>
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-12"><i
+                    class="fas fa-briefcase mr-3 opacity-80"></i>Experience</h2>
+            <div class="grid gap-8">
+                <div class="card glassmorphism p-8 shadow-xl">
+                    <h3 class="card-title"><i class="fas fa-laptop mr-3 opacity-80"></i>Business Analyst & Full Stack
+                        Developer</h3>
+                    <p class="card-meta"><i class="fas fa-building mr-2 opacity-70"></i>The Chennai Mobiles | 12/2023 -
+                        09/2024</p>
+                    <p class="card-description"><i class="fas fa-info-circle mr-2 opacity-70"></i>Built a full-stack web
+                        application with HTML, CSS, JavaScript, Tailwind CSS, and Supabase, boosting team efficiency
+                        by 35%. Crafted Looker Studio dashboards for growth analysis, enhancing decision-making by 40%.
+                        Led banking campaigns, increasing sales engagement by 30%. Ensured 100% data accuracy and
+                        introduced new payment solutions.</p>
+                    <p class="text-sm text-gray-400 font-light"><i class="fas fa-tools mr-2 opacity-70"></i>Tools: HTML,
+                        CSS, JavaScript, Tailwind CSS, Supabase, Looker Studio, DataTables, AMEX, HDFC, IDFC, HDB,
+                        Pinelabs, UPI</p>
+                </div>
+                <div class="card glassmorphism p-8 shadow-xl">
+                    <h3 class="card-title"><i class="fas fa-user-tie mr-3 opacity-80"></i>Junior Scrum Master &
+                        Salesforce Intern</h3>
+                    <p class="card-meta"><i class="fas fa-building mr-2 opacity-70"></i>Commodity CRM | 09/2023 -
+                        12/2023
+                    </p>
+                    <p class="card-description"><i class="fas fa-info-circle mr-2 opacity-70"></i>Facilitated Scrum
+                        ceremonies, improving team productivity by 30%. Integrated REST APIs into Salesforce,
+                        optimizing workflows. Developed dynamic Excel reports for stakeholders, streamlining
+                        decisions.</p>
+                    <p class="text-sm text-gray-400 font-light"><i class="fas fa-tools mr-2 opacity-70"></i>Tools:
+                        Salesforce, REST APIs, MS Excel, Scrum</p>
+                </div>
+                <div class="card glassmorphism p-8 shadow-xl">
+                    <h3 class="card-title"><i class="fas fa-code-branch mr-3 opacity-80"></i>Software Engineer Intern
+                    </h3>
+                    <p class="card-meta"><i class="fas fa-building mr-2 opacity-70"></i>AVASOFT | 08/2022 - 05/2023</p>
+                    <p class="card-description"><i class="fas fa-info-circle mr-2 opacity-70"></i>Enhanced Salesforce
+                        efficiency by 15% with Apex and JavaScript optimizations. Improved CI/CD pipelines, reducing
+                        errors by 25%. Ensured flawless data migration for seamless operations and supported a team of 8
+                        engineers.</p>
+                    <p class="text-sm text-gray-400 font-light"><i class="fas fa-tools mr-2 opacity-70"></i>Tools:
+                        Salesforce, Apex, JavaScript, CI/CD, Data Migration</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="py-24 px-6">
+    <section id="projects" class="py-28 px-6">
         <div class="max-w-6xl mx-auto fade-in">
-            <h2 class="text-5xl font-bold text-white mb-12 text-center"><i class="fas fa-folder-open mr-2"></i>Projects
-            </h2>
-            <div class="project-card glassmorphism p-8 mb-8 shadow-lg">
-                <h3 class="text-2xl font-semibold text-white mb-2"><i class="fas fa-desktop mr-2"></i>Chennai Mobiles
-                    Web Application</h3>
-                <p class="text-white mb-4"><i class="fas fa-info-circle mr-2"></i>Developed an end-to-end full-stack web
-                    application using HTML, CSS, JavaScript, Tailwind CSS, and Supabase. Integrated CRUD operations and
-                    SQL-based reporting workflows, optimizing purchases and payments. Designed an intuitive UI/UX,
-                    enhancing team productivity by 35%.</p>
-            </div>
-            <div class="project-card glassmorphism p-8 mb-8 shadow-lg">
-                <h3 class="text-2xl font-semibold text-white mb-2"><i class="fas fa-university mr-2"></i>Banking
-                    Campaign Analysis</h3>
-                <p class="text-white mb-4"><i class="fas fa-info-circle mr-2"></i>Led a data-driven banking campaign,
-                    boosting sales by 30%. Developed real-time dashboards in Looker Studio, providing actionable
-                    insights for campaign adjustments.</p>
-            </div>
-            <div class="project-card glassmorphism p-8 shadow-lg">
-                <h3 class="text-2xl font-semibold text-white mb-2"><i class="fas fa-chart-bar mr-2"></i>Retail Store
-                    Performance Dashboard</h3>
-                <p class="text-white"><i class="fas fa-info-circle mr-2"></i>Designed a Looker Studio & Excel-based
-                    dashboard to monitor store performance. Reduced decision-making time by 40% using data-driven
-                    visualization.</p>
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-12"><i
+                    class="fas fa-folder-open mr-3 opacity-80"></i>Projects</h2>
+            <div class="grid gap-8">
+                <!-- Project 1 -->
+                <div class="project-card glassmorphism p-8 shadow-xl">
+                    <div class="project-thumbnail">
+                        <!-- Image is now clickable -->
+                        <img src="Chennai Mobiles web.png" alt="Chennai Mobiles Web Application Thumbnail">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title"><i class="fas fa-desktop mr-3 opacity-80"></i>Chennai Mobiles Web
+                            Application
+                        </h3>
+                        <p class="card-meta"><i class="fas fa-tools mr-2 opacity-70"></i>HTML, CSS, JS, Tailwind CSS,
+                            Supabase, DataTables</p>
+                        <p class="card-description"><i class="fas fa-info-circle mr-2 opacity-70"></i>Developed a
+                            full-stack web
+                            application with HTML, CSS, JavaScript, Tailwind CSS, and Supabase. Implemented CRUD
+                            operations and SQL reporting, improving team productivity by 35%.</p>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="project-card glassmorphism p-8 shadow-xl">
+                    <div class="project-thumbnail">
+                        <!-- Image is now clickable -->
+                        <img src="Performance.png" alt="Banking Campaign Analysis Thumbnail">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title"><i class="fas fa-university mr-3 opacity-80"></i>Banking Campaign
+                            Analysis</h3>
+                        <p class="card-meta"><i class="fas fa-tools mr-2 opacity-70"></i>Looker Studio, MS Excel, Data
+                            Analysis</p>
+                        <p class="card-description"><i class="fas fa-info-circle mr-2 opacity-70"></i>Led a data-driven
+                            campaign,
+                            increasing sales by 30%. Built real-time Looker Studio dashboards for actionable insights,
+                            optimizing campaign performance.</p>
+                    </div>
+                </div>
+                <!-- Project 3 -->
+                <div class="project-card glassmorphism p-8 shadow-xl">
+                    <div class="project-thumbnail">
+                        <!-- Image is now clickable -->
+                        <img src="Retail Store Performance Dashboard.png"
+                            alt="Retail Store Performance Dashboard Thumbnail">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title"><i class="fas fa-chart-bar mr-3 opacity-80"></i>Retail Store Performance
+                            Dashboard</h3>
+                        <p class="card-meta"><i class="fas fa-tools mr-2 opacity-70"></i>Looker Studio, MS Excel</p>
+                        <p class="card-description"><i class="fas fa-info-circle mr-2 opacity-70"></i>Created a Looker
+                            Studio and
+                            Excel-based dashboard to track store performance, reducing decision-making time by 40%
+                            with clear visualizations.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section id="education" class="py-24 px-6">
-        <div class="max-w-4xl mx-auto text-center fade-in glassmorphism p-10 shadow-lg">
-            <h2 class="text-5xl font-bold text-white mb-10"><i class="fas fa-graduation-cap mr-2"></i>Education</h2>
+    <section id="testimonials" class="py-28 px-6">
+        <div class="max-w-5xl mx-auto fade-in">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-12"><i
+                    class="fas fa-quote-left mr-3 opacity-80"></i>Testimonials</h2>
+            <div class="grid gap-8 md:grid-cols-2">
+                <!-- Testimonial 1 -->
+                <div class="testimonial glassmorphism p-6 shadow-xl">
+                    <p class="mb-4">Prasanth’s ability to blend technical expertise with strategic insight is unmatched.
+                        His work on our web application transformed our operations.</p>
+                    <p class="text-sm text-gray-400 font-light">— John Doe, Manager at The Chennai Mobiles</p>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="testimonial glassmorphism p-6 shadow-xl">
+                    <p class="mb-4">Working with Prasanth was a game-changer. His dashboards provided clarity and drove
+                        our campaign success.</p>
+                    <p class="text-sm text-gray-400 font-light">— Jane Smith, Marketing Lead</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="py-28 px-6">
+        <div class="max-w-4xl mx-auto text-center fade-in glassmorphism p-8 md:p-12 shadow-2xl">
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-10"><i
+                    class="fas fa-graduation-cap mr-3 opacity-80"></i>Education</h2>
+            <div class="divider"></div>
             <div class="mb-8">
-                <h3 class="text-2xl font-semibold text-white"><i class="fas fa-university mr-2"></i>B.Sc. Computer
-                    Science with Cognitive Systems</h3>
-                <p class="text-white"><i class="fas fa-school mr-2"></i>Karpagam Academy of Higher Education, Coimbatore
-                </p>
-                <p class="text-white"><i class="fas fa-calendar-alt mr-2"></i>2020 - 2023</p>
-                <p class="text-white mt-2"><i class="fas fa-book mr-2"></i>Strong foundation in programming, systems
-                    analysis, and problem-solving.</p>
+                <h3 class="card-title mb-4"><i class="fas fa-university mr-3 opacity-80"></i>B.Sc. Computer Science with
+                    Cognitive Systems</h3>
+                <p class="card-meta mb-2"><i class="fas fa-school mr-2 opacity-70"></i>Karpagam Academy of Higher
+                    Education, Coimbatore</p>
+                <p class="card-meta mb-4"><i class="fas fa-calendar-alt mr-2 opacity-70"></i>2020 - 2023</p>
+                <p class="card-description font-light"><i class="fas fa-book mr-2 opacity-70"></i>Developed a robust
+                    foundation in programming, systems analysis, and cognitive computing, fueling my passion for
+                    innovative solutions.</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 px-6">
+    <section id="contact" class="py-28 px-6">
         <div class="max-w-3xl mx-auto text-center fade-in">
-            <h2 class="text-5xl font-bold text-white mb-12"><i class="fas fa-handshake mr-2"></i>Let’s Connect</h2>
-            <p class="text-lg text-white mb-8"><i class="fas fa-comment-dots mr-2"></i>Have a project in mind? Reach out
-                to collaborate or just say hi.</p>
-            <form class="space-y-6 glassmorphism p-10 rounded-lg shadow-lg">
-                <div class="relative">
-                    <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-white"></i>
-                    <input type="text" placeholder="Your Name"
-                        class="w-full p-4 pl-12 bg-transparent border border-white rounded-lg text-white focus:outline-none focus:border-[#aaa]">
-                </div>
-                <div class="relative">
-                    <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-white"></i>
-                    <input type="email" placeholder="Your Email"
-                        class="w-full p-4 pl-12 bg-transparent border border-white rounded-lg text-white focus:outline-none focus:border-[#aaa]">
-                </div>
-                <div class="relative">
-                    <i class="fas fa-comment absolute left-4 top-4 text-white"></i>
-                    <textarea placeholder="Your Message"
-                        class="w-full p-4 pl-12 bg-transparent border border-white rounded-lg text-white focus:outline-none focus:border-[#aaa] h-32"></textarea>
-                </div>
-                <button type="submit" class="cta-btn w-full p-4 rounded-lg font-semibold shadow-lg"><i
-                        class="fas fa-paper-plane mr-2"></i>Send Message</button>
-            </form>
-            <div class="flex justify-center space-x-8 mt-10">
-                <a href="https://www.linkedin.com/in/prasanth-ragupathy/" class="social-link text-white"><i
-                        class="fab fa-linkedin mr-2"></i>LinkedIn</a>
-                <a href="#" class="social-link text-white"><i class="fab fa-github mr-2"></i>GitHub</a>
-                <a href="mailto:prasanthragupathy5@gmail.com" class="social-link text-white"><i
-                        class="fas fa-envelope mr-2"></i>Email</a>
+            <h2 class="section-title text-4xl md:text-5xl font-bold text-white mb-12"><i
+                    class="fas fa-handshake mr-3 opacity-80"></i>Let’s Collaborate</h2>
+            <div class="divider"></div>
+            <p class="text-lg md:text-xl text-white mb-12 font-light tracking-wide opacity-90">Ready to bring your
+                vision to life? Let’s connect and create something extraordinary.</p>
+            <div class="glassmorphism p-8 md:p-12 rounded-lg shadow-2xl">
+                <form class="space-y-8 contact-form">
+                    <div class="relative">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" placeholder="Your Name">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" placeholder="Your Email">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-comment input-icon top-5 transform-none"></i>
+                        <textarea placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="cta-btn w-full font-semibold shadow-xl"><i
+                            class="fas fa-paper-plane mr-3"></i>Send Message</button>
+                </form>
+            </div>
+            <div class="flex justify-center space-x-8 mt-12">
+                <a href="https://www.linkedin.com/in/prasanth-ragupathy/" target="_blank" rel="noopener noreferrer"
+                    class="social-link text-lg"><i class="fab fa-linkedin mr-2 opacity-70"></i>LinkedIn</a>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="social-link text-lg"><i
+                        class="fab fa-github mr-2 opacity-70"></i>GitHub</a>
+                <a href="mailto:prasanthragupathy5@gmail.com" class="social-link text-lg"><i
+                        class="fas fa-envelope mr-2 opacity-70"></i>Email</a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-6 text-center text-white shadow-md">
-        <p><i class="fas fa-copyright mr-2"></i>© 2025 Prasanth Ragupathy. All rights reserved.</p>
+    <footer class="py-8 text-center text-white bg-black bg-opacity-30 mt-12">
+        <p class="text-sm md:text-base font-light opacity-70"><i class="fas fa-copyright mr-2 opacity-60"></i>© 2025
+            Prasanth Ragupathy. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- --- Project Image Modal --- -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content glassmorphism">
+            <span class="modal-close">×</span>
+            <img id="modal-image" src="" alt="Project Screenshot">
+        </div>
+    </div>
+    <!-- --- End Modal --- -->
+
+
     <script>
-        // Starfield Effect
+        // Starfield
         const starfield = document.getElementById('starfield');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            const size = Math.random() * 4 + 2;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.animationDuration = `${Math.random() * 10 + 5}s`;
-            star.style.animationDelay = `${Math.random() * 5}s`;
-            starfield.appendChild(star);
+        if (starfield && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            for (let i = 0; i < 150; i++) { // Increased stars for density
+                const star = document.createElement('div');
+                star.classList.add('star');
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                starfield.appendChild(star);
+            }
         }
 
-        // Fade-In Animation
+        // Fade-in Observer
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }); // Trigger slightly before fully visible
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offset = document.querySelector('nav').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    const nav = document.querySelector('nav');
+                    if (nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        // CSS handles display based on the active class
+                    }
+                }
             });
         });
 
         // Progress Bar
+        const progressBar = document.getElementById('progress-bar');
         window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.body.scrollHeight - window.innerHeight;
+            if (!progressBar) return;
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
-            document.getElementById('progress-bar').style.width = `${scrollPercent}%`;
+            progressBar.style.width = `${scrollPercent}%`;
         });
 
-        // 3D Tilt for Project Cards
-        VanillaTilt.init(document.querySelectorAll('.project-card'), {
-            max: 15,
-            speed: 400,
-            glare: true,
-            'max-glare': 0.3
-        });
+        // Tilt Effect
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            VanillaTilt.init(document.querySelectorAll('.project-card'), {
+                max: 8,
+                speed: 600,
+                glare: true,
+                'max-glare': 0.15
+            });
+        }
 
-        // Mobile Menu Toggle
+        // Mobile Menu
         const menuToggle = document.querySelector('.menu-toggle');
         const nav = document.querySelector('nav');
-        menuToggle.addEventListener('click', () => {
-            nav.classList.toggle('active');
+        const navUl = nav ? nav.querySelector('ul') : null;
+
+        if (menuToggle && nav && navUl) {
+            // Initial check on load for mobile state (CSS handles initial desktop state)
+            if (window.innerWidth <= 768 && !nav.classList.contains('active')) {
+                navUl.style.display = 'none';
+            }
+
+            menuToggle.addEventListener('click', () => {
+                nav.classList.toggle('active');
+                // CSS handles display based on the active class
+                navUl.style.display = nav.classList.contains('active') ? 'flex' : 'none';
+            });
+
+            // Handle resize to ensure menu is visible on desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    nav.classList.remove('active'); // Remove active class on desktop
+                    navUl.style.display = ''; // Reset display to default (flex via CSS)
+                } else if (!nav.classList.contains('active')) {
+                    // On mobile, ensure display is controlled by the active class CSS
+                    navUl.style.display = 'none';
+                }
+            });
+        }
+
+        // Skills Data and Population
+        const skillsRibbon1Base = [
+            { icon: "fab fa-salesforce", name: "Salesforce CRM" },
+            { icon: "fas fa-code", name: "Apex Coding" },
+            { icon: "fas fa-exchange-alt", name: "REST API" },
+            { icon: "fas fa-database", name: "SOQL" },
+            { icon: "fas fa-server", name: "SQL" },
+            { icon: "fas fa-bolt", name: "Lightning Web Components" },
+            { icon: "fas fa-file-import", name: "Data Migration" },
+            { icon: "fas fa-layer-group", name: "Full Stack Development" },
+            { icon: "fas fa-table", name: "Supabase" },
+            { icon: "fas fa-edit", name: "CRUD Operations" },
+            { icon: "fab fa-html5", name: "HTML" },
+            { icon: "fab fa-css3-alt", name: "CSS" },
+            { icon: "fab fa-js", name: "JavaScript" },
+            { icon: "fas fa-wind", name: "Tailwind CSS" },
+            { icon: "fas fa-table", name: "DataTables" }
+        ];
+
+        const skillsRibbon2Base = [
+            { icon: "fas fa-tasks", name: "Project Management" },
+            { icon: "fas fa-running", name: "Agile Methodologies" },
+            { icon: "fas fa-users", name: "Scrum" },
+            { icon: "fas fa-file-excel", name: "MS Excel" },
+            { icon: "fas fa-chart-bar", name: "Power BI" },
+            { icon: "fas fa-paint-brush", name: "UI/UX Design" },
+            { icon: "fab fa-microsoft", name: "Microsoft 365" },
+            { icon: "fas fa-tools", name: "Postman" },
+            { icon: "fas fa-cogs", name: "CI/CD Pipelines" },
+            { icon: "fas fa-bug", name: "Debugging" },
+            { icon: "fas fa-wrench", name: "Troubleshooting" },
+            { icon: "fas fa-comments", name: "Stakeholder Communication" },
+            { icon: "fas fa-cogs", name: "Business Process Optimization" }
+        ];
+
+        // Duplicate skills multiple times for longer lists and smoother looping
+        const skillsRibbon1 = [...skillsRibbon1Base, ...skillsRibbon1Base, ...skillsRibbon1Base, ...skillsRibbon1Base];
+        const skillsRibbon2 = [...skillsRibbon2Base, ...skillsRibbon2Base, ...skillsRibbon2Base, ...skillsRibbon2Base, ...skillsRibbon2Base];
+
+        function createSkillItem(skill) {
+            const skillItem = document.createElement('span');
+            skillItem.classList.add('skill-item');
+            const icon = document.createElement('i');
+            icon.className = `${skill.icon}`;
+            skillItem.appendChild(icon);
+            skillItem.appendChild(document.createTextNode(skill.name));
+            return skillItem;
+        }
+
+        function populateRibbon(skills, ribbonClass) {
+            const ribbonContent = document.querySelector(`.ribbon.${ribbonClass} .ribbon-content`);
+            if (ribbonContent) {
+                skills.forEach(skill => {
+                    ribbonContent.appendChild(createSkillItem(skill));
+                });
+            } else {
+                console.error(`Ribbon content container not found for class: ${ribbonClass}`);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateRibbon(skillsRibbon1, 'ribbon-1');
+            populateRibbon(skillsRibbon2, 'ribbon-2');
+
+            // --- Modal Logic ---
+            const projectThumbnails = document.querySelectorAll('.project-thumbnail');
+            const modal = document.getElementById('project-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalClose = modal ? modal.querySelector('.modal-close') : null;
+            const body = document.body;
+
+            if (projectThumbnails && modal && modalImage && modalClose) {
+                projectThumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', () => {
+                        const imgSrc = thumbnail.querySelector('img').src;
+                        const imgAlt = thumbnail.querySelector('img').alt; // Get alt text
+
+                        modalImage.src = imgSrc;
+                        modalImage.alt = imgAlt; // Set alt text for modal image
+                        modal.classList.add('active');
+                        body.classList.add('modal-open'); // Prevent body scroll
+                    });
+                });
+
+                // Close modal function
+                const closeModal = () => {
+                    modal.classList.remove('active');
+                    body.classList.remove('modal-open'); // Allow body scroll
+                    modalImage.src = ''; // Clear image source when closing
+                    modalImage.alt = ''; // Clear alt text
+                };
+
+                // Close on close button click
+                modalClose.addEventListener('click', closeModal);
+
+                // Close on clicking outside the modal content
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) { // Check if the click is directly on the modal background
+                        closeModal();
+                    }
+                });
+
+                // Close on Escape key press
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modal.classList.contains('active')) {
+                        closeModal();
+                    }
+                });
+
+            } else {
+                console.error("Modal elements not found!");
+            }
+            // --- End Modal Logic ---
+
         });
     </script>
 </body>
